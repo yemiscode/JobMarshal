@@ -19,7 +19,7 @@ export async function LoginForm() {
                 <CardContent className="flex flex-col gap-4">
                     <form action={async () => {
                         "use server";
-                       await signIn("github", {redirectTo: "/",})
+                       await signIn("github", {redirectTo: "/onboarding",})
                     }}>
                             <GeneralSubmitButton 
                             text="Log in with GitHub" 
@@ -32,7 +32,7 @@ export async function LoginForm() {
 
                     <form action={ async() => {
                         "use server"
-                        await signIn("google", {redirectTo: "/"})
+                        await signIn("google", {redirectTo: "/onboarding",})
                     } }>
                     <GeneralSubmitButton 
                             text="Log in with Google" 
