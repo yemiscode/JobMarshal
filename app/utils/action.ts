@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db"
 import { requireUser } from "./requireUser"
 import { z } from "zod"
 import { redirect } from "next/navigation"
-import { companySchema } from "./zodSchemas"
+import { companySchema, jobSeekerSchema } from "./zodSchemas"
 
 export async function createCompany(data: z.infer<typeof companySchema>) {
     const session = await requireUser();
@@ -41,3 +41,21 @@ export async function createCompany(data: z.infer<typeof companySchema>) {
     return redirect("/");
   }
   
+  export async function CreateJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
+    const user = await requireUser();
+    const validateData = jobSeekerSchema.parse(data);
+    await prisma.user.update({    
+      where: {
+        id: user.id as string},
+        data: {
+          onBoardingCompleted: true,
+          UserType: "JOB_SEEKER",
+          JobSeeker: {
+            create: {
+              ...validateData,
+            },
+          },
+        }
+    })
+    return redirect("/");
+  }
